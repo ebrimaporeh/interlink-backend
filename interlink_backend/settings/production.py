@@ -3,11 +3,11 @@ from django.core.exceptions import ImproperlyConfigured
 from .base import *
 
 # Set DEBUG=True in Render env vars only when debugging — never leave it on
-DEBUG = os.getenv('DEBUG', 'False') == 'True'
+# DEBUG = os.getenv('DEBUG', 'False') == 'True'
 
 # '*' works safely behind Render/Cloudflare proxy; set ALLOWED_HOSTS env var to
 # restrict to specific domains once the app is stable
-ALLOWED_HOSTS = [h.strip() for h in os.getenv('ALLOWED_HOSTS', '*').split(',') if h.strip()]
+# ALLOWED_HOSTS = [h.strip() for h in os.getenv('ALLOWED_HOSTS', '*').split(',') if h.strip()]
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 SECURE_SSL_REDIRECT = True
@@ -24,9 +24,16 @@ if not _DATABASE_URL:
 DATABASES = {'default': dj_database_url.config(default=_DATABASE_URL, conn_max_age=600, ssl_require=True)}
 
 # ── CORS ─────────────────────────────────────────────────────────────────────
-CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOWED_ORIGIN_REGEXES = [r'^https://.*\.vercel\.app$']
-CORS_ALLOWED_ORIGINS = [o.strip() for o in os.getenv('CORS_ALLOWED_ORIGINS', '').split(',') if o.strip()]
+# CORS_ALLOW_ALL_ORIGINS = False
+# CORS_ALLOWED_ORIGIN_REGEXES = [r'^https://.*\.vercel\.app$']
+# CORS_ALLOWED_ORIGINS = [o.strip() for o in os.getenv('CORS_ALLOWED_ORIGINS', '').split(',') if o.strip()]
+# CORS_ALLOW_CREDENTIALS = True
+
+DEBUG = True
+
+ALLOWED_HOSTS = ['*']
+
+CORS_ALLOW_ALL_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
 # ── Supabase S3 storage ───────────────────────────────────────────────────────
