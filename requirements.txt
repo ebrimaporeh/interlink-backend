@@ -14,5 +14,6 @@ whitenoise==6.6.0
 django-embed-video==1.4.10
 django-taggit==5.0.0
 django-phonenumber-field==7.3.0
+phonenumbers==8.13.50
 dj-database-url==2.1.0
 gunicorn==21.2.0
