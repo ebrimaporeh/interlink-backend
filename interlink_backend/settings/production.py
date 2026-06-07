@@ -57,6 +57,9 @@ STORAGES = {
     },
 }
 
-# Static files are served by Whitenoise from the collected root
+# Static files — Whitenoise serves from STATIC_ROOT.
+# Clear STATICFILES_DIRS so collectstatic doesn't warn about the local
+# 'static/' directory that doesn't exist on Render.
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = []
