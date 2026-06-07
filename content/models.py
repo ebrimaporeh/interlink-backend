@@ -211,7 +211,7 @@ class BlogCategory(models.Model):
 class BlogPost(models.Model):
     """Blog posts"""
     title = models.CharField(max_length=200)
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(max_length=200, unique=True, blank=True)
     category = models.ForeignKey(BlogCategory, on_delete=models.SET_NULL, null=True, related_name='posts')
     author = models.CharField(max_length=200)
     author_image = models.ImageField(upload_to='blog/authors/', blank=True, null=True)

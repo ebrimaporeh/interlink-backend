@@ -213,7 +213,7 @@ class SeedCourses(BaseSeeder):
             if course_data['image'] and not course.image:
                 image_file = BaseSeeder.download_image(course_data['image'])
                 if image_file:
-                    course.image.save(f"{course.slug}.jpg", image_file, save=True)
+                    BaseSeeder.save_image(course.image, f"{course.slug}.jpg", image_file)
             
             created_courses.append(course)
             BaseSeeder.print_success(f"Created course: {course.title}")

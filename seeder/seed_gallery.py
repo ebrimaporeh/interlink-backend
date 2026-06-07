@@ -61,7 +61,7 @@ class SeedGallery(BaseSeeder):
             # Download and set image
             image_file = BaseSeeder.download_image(img_data['url'])
             if image_file:
-                item.image.save(f"gallery_{idx}.jpg", image_file, save=True)
+                BaseSeeder.save_image(item.image, f"gallery_{idx}.jpg", image_file)
             
             BaseSeeder.print_info(f"  Created gallery item: {img_data['caption']}")
         

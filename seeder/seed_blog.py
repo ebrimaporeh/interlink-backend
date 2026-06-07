@@ -1,4 +1,5 @@
 # seeder/seed_blog.py
+from django.utils.text import slugify
 from content.models import BlogCategory, BlogPost
 from . import BaseSeeder
 
@@ -105,7 +106,7 @@ class SeedBlog(BaseSeeder):
             
             post = BlogPost.objects.create(
                 title=post_data['title'],
-                slug=post_data['title'].lower().replace(' ', '-'),
+                slug=slugify(post_data['title'])[:200],
                 category=category,
                 author=post_data['author'],
                 excerpt=post_data['excerpt'],
@@ -119,7 +120,7 @@ class SeedBlog(BaseSeeder):
             # Download and set image
             image_file = BaseSeeder.download_image(post_data['image'])
             if image_file:
-                post.featured_image.save(f"{post.slug}.jpg", image_file, save=True)
+                BaseSeeder.save_image(post.featured_image, f"{post.slug}.jpg", image_file)
             
             BaseSeeder.print_info(f"  Created blog post: {post.title}")
         

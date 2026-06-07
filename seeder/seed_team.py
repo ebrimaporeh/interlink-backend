@@ -80,7 +80,7 @@ class SeedTeam(BaseSeeder):
             )
             
             if image_file:
-                member.image.save(f"{member.name.lower().replace(' ', '_')}.jpg", image_file, save=True)
+                BaseSeeder.save_image(member.image, f"{member.name.lower().replace(' ', '_')}.jpg", image_file)
             
             BaseSeeder.print_success(f"Created team member: {member.name}")
         

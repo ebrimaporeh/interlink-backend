@@ -31,6 +31,16 @@ class BaseSeeder:
         print(f"  ✓ Cleared {count} records from {model.__name__}")
     
     @staticmethod
+    def save_image(field, filename, image_file):
+        """Save image to an ImageField, ignoring storage errors so seeding continues."""
+        try:
+            field.save(filename, image_file, save=True)
+            return True
+        except Exception as e:
+            print(f"  ⚠️  Image upload skipped ({e.__class__.__name__}): {e}")
+            return False
+
+    @staticmethod
     def print_success(message):
         print(f"  ✅ {message}")
     
