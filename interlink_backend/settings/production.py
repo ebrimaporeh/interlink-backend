@@ -1,4 +1,5 @@
 import dj_database_url
+from django.core.exceptions import ImproperlyConfigured
 from .base import *
 
 DEBUG = False
@@ -15,13 +16,23 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
 # Supabase PostgreSQL (via connection pooler)
-DATABASES = {
-    'default': dj_database_url.config(
-        default=os.getenv('DATABASE_URL'),
-        conn_max_age=600,
-        ssl_require=True,
+_DATABASE_URL = os.environ.get('DATABASE_URL', '')
+if not _DATABASE_URL:
+    raise ImproperlyConfigured(
+        "DATABASE_URL environment variable is not set. "
+        "Set it in Render's Environment Variables panel."
     )
-}
+
+_db_config = dj_database_url.config(default=_DATABASE_URL, conn_max_age=600, ssl_require=True)
+
+if _db_config.get('ENGINE') != 'django.db.backends.postgresql':
+    raise ImproperlyConfigured(
+        f"DATABASE_URL must resolve to a PostgreSQL database. "
+        f"Got ENGINE='{_db_config.get('ENGINE', 'empty')}'. "
+        f"DATABASE_URL value starts with: '{_DATABASE_URL[:40]}'"
+    )
+
+DATABASES = {'default': _db_config}
 
 # CORS — only allow the production frontend domain
 CORS_ALLOW_ALL_ORIGINS = False
