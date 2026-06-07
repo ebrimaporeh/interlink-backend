@@ -6,6 +6,11 @@
 #                data entered through the admin panel is never wiped.
 set -o errexit
 
+# Force production settings for all manage.py calls in this script.
+# manage.py defaults to 'development' (SQLite); without this override
+# migrations would run against SQLite instead of Supabase PostgreSQL.
+export DJANGO_SETTINGS_MODULE=interlink_backend.settings.production
+
 echo "==> Installing dependencies"
 pip install -r requirements.txt
 
