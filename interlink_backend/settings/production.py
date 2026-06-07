@@ -2,7 +2,7 @@ import dj_database_url
 from django.core.exceptions import ImproperlyConfigured
 from .base import *
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     h.strip()
