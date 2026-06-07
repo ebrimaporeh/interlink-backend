@@ -4,7 +4,11 @@ from .base import *
 
 DEBUG = False
 
-ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', '').split(',')
+ALLOWED_HOSTS = [
+    h.strip()
+    for h in os.getenv('ALLOWED_HOSTS', '.onrender.com').split(',')
+    if h.strip()
+]
 
 # Trust Render's reverse proxy for HTTPS
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -34,9 +38,12 @@ if _db_config.get('ENGINE') != 'django.db.backends.postgresql':
 
 DATABASES = {'default': _db_config}
 
-# CORS — only allow the production frontend domain
+# CORS — set CORS_ALLOWED_ORIGINS env var to your Vercel/custom frontend URL(s)
 CORS_ALLOW_ALL_ORIGINS = False
-CORS_ALLOWED_ORIGINS = [o.strip() for o in os.getenv('CORS_ALLOWED_ORIGINS', '').split(',') if o.strip()]
+_cors_default = '.vercel.app'   # covers all *.vercel.app preview/production URLs
+CORS_ALLOWED_ORIGIN_REGEXES = [r'^https://.*\.vercel\.app$']
+_cors_env = os.getenv('CORS_ALLOWED_ORIGINS', '')
+CORS_ALLOWED_ORIGINS = [o.strip() for o in _cors_env.split(',') if o.strip()]
 CORS_ALLOW_CREDENTIALS = True
 
 # ── Supabase S3 Storage ───────────────────────────────────────────
