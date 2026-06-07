@@ -29,7 +29,7 @@ CORS_ALLOWED_ORIGINS = [o.strip() for o in os.getenv('CORS_ALLOWED_ORIGINS', '')
 CORS_ALLOW_CREDENTIALS = True
 
 # ── Supabase S3 Storage ───────────────────────────────────────────
-_BUCKET = os.getenv('AWS_STORAGE_BUCKET_NAME', 'interlink-media')
+_BUCKET = os.getenv('AWS_STORAGE_BUCKET_NAME', 'media')
 _PROJECT = 'flebrclfzzleupwbligo'
 
 AWS_ACCESS_KEY_ID = os.getenv('AWS_ACCESS_KEY_ID')
